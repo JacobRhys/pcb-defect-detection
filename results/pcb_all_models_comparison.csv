@@ -1,0 +1,5 @@
+Model,Accuracy,Macro Recall,Macro Precision,Macro F1
+HOG + SVM,0.1058,0.1051,0.1233,0.1019
+PCA + RF,0.4519,0.4537,0.4569,0.4506
+ResNet-18,0.1635,0.1661,0.1409,0.141
+ViT-Tiny,0.1538,0.1563,0.0828,0.0801

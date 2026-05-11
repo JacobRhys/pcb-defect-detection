@@ -1,0 +1,3 @@
+Model,Class A,Class B,Swap rate,Swaps,Pair total
+ResNet-18,Open_circuit,Short,0.3714,13,35
+ViT-Tiny,Mouse_bite,Spur,0.4706,16,34

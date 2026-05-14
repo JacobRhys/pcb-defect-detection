@@ -36,6 +36,7 @@ export async function runInspection(tile: QueueTile): Promise<void> {
     bay.set({ kind: 'result', tile, response });
     recordResult(tile, response);
   } catch (err) {
+    console.error('[aifi/orchestrator] inspection failed for', tile.serial, err);
     let message = 'INSPECTION NODE UNREACHABLE — RETRYING';
     if (err instanceof RateLimitedError) {
       message = `RATE LIMITED — RETRY IN ${err.retry_after_s}s`;

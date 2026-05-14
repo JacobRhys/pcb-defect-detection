@@ -69,43 +69,60 @@ export async function detect(
       const fd = new FormData();
       fd.append('image', image, 'board.jpg');
       fd.append('layout_id', layout_id);
+      console.debug('[aifi/api] POST /api/detect', { layout_id, attempt, image_bytes: image.size });
       const res = await fetch(DETECT_PATH, { method: 'POST', body: fd, signal: opts.signal });
+      console.debug('[aifi/api] response', { status: res.status, ok: res.ok, attempt });
 
       // 503 with a cold_start body is not a hard failure — it's the warming signal.
       if (res.status === 503) {
         const body = (await res.json().catch(() => ({}))) as Partial<ColdStartResponse>;
         const eta = body.eta_ms ?? 20000;
+        console.warn('[aifi/api] cold start; eta_ms=', eta, body);
         opts.onColdStart?.(eta);
         await sleep(Math.min(eta, 5000));
         continue;
       }
       if (res.status === 429) {
         const body = (await res.json().catch(() => ({}))) as Partial<RateLimitedResponse>;
+        console.warn('[aifi/api] rate limited; retry_after_s=', body.retry_after_s, body);
         throw new RateLimitedError(body.retry_after_s ?? 60);
       }
       if (!res.ok) {
         const text = await res.text().catch(() => '');
+        console.error('[aifi/api] HTTP error', {
+          status: res.status,
+          statusText: res.statusText,
+          body_full: text,
+          headers: Object.fromEntries(res.headers.entries())
+        });
         throw new Error(`HTTP ${res.status}: ${text.slice(0, 200)}`);
       }
 
       const body = (await res.json()) as ApiResponse;
       if (isColdStart(body)) {
+        console.warn('[aifi/api] cold_start in 200 body; eta_ms=', body.eta_ms);
         opts.onColdStart?.(body.eta_ms);
         await sleep(Math.min(body.eta_ms, 5000));
         continue;
       }
       if (isRateLimited(body)) throw new RateLimitedError(body.retry_after_s);
-      if (!isDetectResponse(body)) throw new Error('malformed response: ' + JSON.stringify(body).slice(0, 200));
+      if (!isDetectResponse(body)) {
+        console.error('[aifi/api] malformed response', body);
+        throw new Error('malformed response: ' + JSON.stringify(body).slice(0, 200));
+      }
+      console.debug('[aifi/api] success', body);
       return body;
     } catch (err) {
       lastErr = err;
       if (err instanceof RateLimitedError) throw err;
+      console.warn('[aifi/api] attempt', attempt, 'threw', err);
       if (attempt < maxAttempts) {
         await sleep(1000 * 2 ** (attempt - 1)); // 1s, 2s, 4s
         continue;
       }
     }
   }
+  console.error('[aifi/api] giving up after', maxAttempts, 'attempts; last error:', lastErr);
   throw lastErr instanceof Error ? lastErr : new Error('detect failed after retries');
 }
 

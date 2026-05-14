@@ -37,8 +37,14 @@ FLAW_DIRS = {
 }
 
 HELD_OUT_LAYOUTS = {"10", "11", "12"}
-TARGET_LONG_EDGE = 512
-JPEG_QUALITY = 85
+# The detection pipeline (ORB registration, CLAHE diff proposals, 96-px
+# classifier crops) was tuned on the original ~2240 px PCB_DATASET inputs.
+# Downsampling the flaw image while leaving the clean reference at native
+# resolution produces a blurry warped flaw and a wave of false-positive
+# proposals. Keep the staged demo samples close to native to match the
+# benchmark distribution.
+TARGET_LONG_EDGE = 2240
+JPEG_QUALITY = 82
 
 
 def _layout_of(stem: str) -> str | None:

@@ -14,3 +14,15 @@ venv/
 # Large/regeneratable artifacts
 PCB_DATASET/
 pipeline_cache/
+
+# Web demo build artifacts
+/web/node_modules
+/web/.svelte-kit
+/web/build
+/web/.wrangler
+
+# Service local venv
+/service/.venv
+
+# Local env overrides
+*.env.local

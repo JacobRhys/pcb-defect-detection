@@ -1,0 +1,282 @@
+[
+  {
+    "file": "L12_missing_hole_00.jpg",
+    "layout_id": "L12",
+    "expected_class": "missing_hole",
+    "width": 512,
+    "height": 512
+  },
+  {
+    "file": "L10_spurious_copper_01.jpg",
+    "layout_id": "L10",
+    "expected_class": "spurious_copper",
+    "width": 512,
+    "height": 461
+  },
+  {
+    "file": "L12_short_02.jpg",
+    "layout_id": "L12",
+    "expected_class": "short",
+    "width": 512,
+    "height": 512
+  },
+  {
+    "file": "L11_open_circuit_03.jpg",
+    "layout_id": "L11",
+    "expected_class": "open_circuit",
+    "width": 512,
+    "height": 504
+  },
+  {
+    "file": "L10_spur_04.jpg",
+    "layout_id": "L10",
+    "expected_class": "spur",
+    "width": 512,
+    "height": 461
+  },
+  {
+    "file": "L11_missing_hole_05.jpg",
+    "layout_id": "L11",
+    "expected_class": "missing_hole",
+    "width": 512,
+    "height": 504
+  },
+  {
+    "file": "L11_short_06.jpg",
+    "layout_id": "L11",
+    "expected_class": "short",
+    "width": 512,
+    "height": 504
+  },
+  {
+    "file": "L10_open_circuit_07.jpg",
+    "layout_id": "L10",
+    "expected_class": "open_circuit",
+    "width": 512,
+    "height": 461
+  },
+  {
+    "file": "L11_spurious_copper_08.jpg",
+    "layout_id": "L11",
+    "expected_class": "spurious_copper",
+    "width": 512,
+    "height": 504
+  },
+  {
+    "file": "L12_spurious_copper_09.jpg",
+    "layout_id": "L12",
+    "expected_class": "spurious_copper",
+    "width": 512,
+    "height": 512
+  },
+  {
+    "file": "L12_open_circuit_10.jpg",
+    "layout_id": "L12",
+    "expected_class": "open_circuit",
+    "width": 512,
+    "height": 512
+  },
+  {
+    "file": "L10_short_11.jpg",
+    "layout_id": "L10",
+    "expected_class": "short",
+    "width": 512,
+    "height": 461
+  },
+  {
+    "file": "L10_mouse_bite_12.jpg",
+    "layout_id": "L10",
+    "expected_class": "mouse_bite",
+    "width": 512,
+    "height": 461
+  },
+  {
+    "file": "L11_spur_13.jpg",
+    "layout_id": "L11",
+    "expected_class": "spur",
+    "width": 512,
+    "height": 504
+  },
+  {
+    "file": "L10_missing_hole_14.jpg",
+    "layout_id": "L10",
+    "expected_class": "missing_hole",
+    "width": 512,
+    "height": 461
+  },
+  {
+    "file": "L12_spur_15.jpg",
+    "layout_id": "L12",
+    "expected_class": "spur",
+    "width": 512,
+    "height": 512
+  },
+  {
+    "file": "L12_mouse_bite_16.jpg",
+    "layout_id": "L12",
+    "expected_class": "mouse_bite",
+    "width": 512,
+    "height": 512
+  },
+  {
+    "file": "L11_mouse_bite_17.jpg",
+    "layout_id": "L11",
+    "expected_class": "mouse_bite",
+    "width": 512,
+    "height": 504
+  },
+  {
+    "file": "L12_missing_hole_18.jpg",
+    "layout_id": "L12",
+    "expected_class": "missing_hole",
+    "width": 512,
+    "height": 512
+  },
+  {
+    "file": "L10_spurious_copper_19.jpg",
+    "layout_id": "L10",
+    "expected_class": "spurious_copper",
+    "width": 512,
+    "height": 461
+  },
+  {
+    "file": "L12_short_20.jpg",
+    "layout_id": "L12",
+    "expected_class": "short",
+    "width": 512,
+    "height": 512
+  },
+  {
+    "file": "L11_open_circuit_21.jpg",
+    "layout_id": "L11",
+    "expected_class": "open_circuit",
+    "width": 512,
+    "height": 504
+  },
+  {
+    "file": "L10_spur_22.jpg",
+    "layout_id": "L10",
+    "expected_class": "spur",
+    "width": 512,
+    "height": 461
+  },
+  {
+    "file": "L11_missing_hole_23.jpg",
+    "layout_id": "L11",
+    "expected_class": "missing_hole",
+    "width": 512,
+    "height": 504
+  },
+  {
+    "file": "L11_short_24.jpg",
+    "layout_id": "L11",
+    "expected_class": "short",
+    "width": 512,
+    "height": 504
+  },
+  {
+    "file": "L10_open_circuit_25.jpg",
+    "layout_id": "L10",
+    "expected_class": "open_circuit",
+    "width": 512,
+    "height": 461
+  },
+  {
+    "file": "L11_spurious_copper_26.jpg",
+    "layout_id": "L11",
+    "expected_class": "spurious_copper",
+    "width": 512,
+    "height": 504
+  },
+  {
+    "file": "L12_spurious_copper_27.jpg",
+    "layout_id": "L12",
+    "expected_class": "spurious_copper",
+    "width": 512,
+    "height": 512
+  },
+  {
+    "file": "L12_open_circuit_28.jpg",
+    "layout_id": "L12",
+    "expected_class": "open_circuit",
+    "width": 512,
+    "height": 512
+  },
+  {
+    "file": "L10_short_29.jpg",
+    "layout_id": "L10",
+    "expected_class": "short",
+    "width": 512,
+    "height": 461
+  },
+  {
+    "file": "L10_mouse_bite_30.jpg",
+    "layout_id": "L10",
+    "expected_class": "mouse_bite",
+    "width": 512,
+    "height": 461
+  },
+  {
+    "file": "L11_spur_31.jpg",
+    "layout_id": "L11",
+    "expected_class": "spur",
+    "width": 512,
+    "height": 504
+  },
+  {
+    "file": "L10_missing_hole_32.jpg",
+    "layout_id": "L10",
+    "expected_class": "missing_hole",
+    "width": 512,
+    "height": 461
+  },
+  {
+    "file": "L12_spur_33.jpg",
+    "layout_id": "L12",
+    "expected_class": "spur",
+    "width": 512,
+    "height": 512
+  },
+  {
+    "file": "L12_mouse_bite_34.jpg",
+    "layout_id": "L12",
+    "expected_class": "mouse_bite",
+    "width": 512,
+    "height": 512
+  },
+  {
+    "file": "L11_mouse_bite_35.jpg",
+    "layout_id": "L11",
+    "expected_class": "mouse_bite",
+    "width": 512,
+    "height": 504
+  },
+  {
+    "file": "L12_missing_hole_36.jpg",
+    "layout_id": "L12",
+    "expected_class": "missing_hole",
+    "width": 512,
+    "height": 512
+  },
+  {
+    "file": "L10_spurious_copper_37.jpg",
+    "layout_id": "L10",
+    "expected_class": "spurious_copper",
+    "width": 512,
+    "height": 461
+  },
+  {
+    "file": "L12_short_38.jpg",
+    "layout_id": "L12",
+    "expected_class": "short",
+    "width": 512,
+    "height": 512
+  },
+  {
+    "file": "L11_open_circuit_39.jpg",
+    "layout_id": "L11",
+    "expected_class": "open_circuit",
+    "width": 512,
+    "height": 504
+  }
+]

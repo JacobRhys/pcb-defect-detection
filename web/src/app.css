@@ -22,6 +22,14 @@
   --r-md: 8px;
   --r-lg: 12px;
 
+  /* UI font scale — single source of truth for all text sizes.
+     Sized for smartboard / large-display viewing. */
+  --fs-2xs: 12px;   /* KPI window labels               */
+  --fs-xs:  14px;   /* chips, badges, log rows, meta    */
+  --fs-sm:  16px;   /* panel headers, status, conveyor  */
+  --fs-md:  17px;   /* hints, verdict, serial text      */
+  --fs-kpi: 30px;   /* KPI big numbers                  */
+
   color-scheme: light;
   font-family: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
   font-weight: 400;

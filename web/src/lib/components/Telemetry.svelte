@@ -70,7 +70,7 @@
   }
   header { display: flex; justify-content: space-between; align-items: center; }
   .title {
-    font-size: 11px;
+    font-size: var(--fs-sm);
     letter-spacing: 0.16em;
     color: var(--accent-data);
   }
@@ -80,5 +80,5 @@
     gap: 8px;
   }
   .panel { display: flex; flex-direction: column; gap: 6px; }
-  .panel-head { display: flex; justify-content: space-between; font-size: 10px; letter-spacing: 0.12em; }
+  .panel-head { display: flex; justify-content: space-between; font-size: var(--fs-xs); letter-spacing: 0.12em; }
 </style>

@@ -33,7 +33,7 @@
     display: flex;
     flex-direction: column;
     gap: 6px;
-    width: 132px;
+    width: 160px;
     padding: 8px;
     background: var(--surface);
     border: 1px solid var(--line);
@@ -52,15 +52,15 @@
     position: absolute;
     top: 4px;
     right: 4px;
-    font-size: 10px;
+    font-size: var(--fs-xs);
     padding: 2px 6px;
     border-radius: 2px;
     letter-spacing: 0.06em;
   }
   .badge[data-verdict='PASS'] { background: rgba(43,209,126,0.18); color: var(--accent-safe); }
   .badge[data-verdict='FAIL'] { background: rgba(229,72,77,0.18); color: var(--accent-fail); }
-  .meta { display: flex; justify-content: space-between; font-size: 10px; }
-  .summary { display: flex; flex-wrap: wrap; gap: 3px; font-size: 10px; }
+  .meta { display: flex; justify-content: space-between; font-size: var(--fs-xs); }
+  .summary { display: flex; flex-wrap: wrap; gap: 3px; font-size: var(--fs-xs); }
   .chip {
     padding: 1px 6px;
     border-radius: 999px;

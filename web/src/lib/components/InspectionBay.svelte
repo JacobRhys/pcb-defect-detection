@@ -270,10 +270,10 @@
     padding: 0 14px;
     border-bottom: 1px solid var(--line);
     background: var(--surface-2);
-    font-size: 11px;
+    font-size: var(--fs-sm);
   }
   .status-group { display: flex; align-items: center; gap: 8px; }
-  .status { font-size: 11px; letter-spacing: 0.14em; }
+  .status { font-size: var(--fs-sm); letter-spacing: 0.14em; }
   .led {
     width: 8px; height: 8px; border-radius: 50%;
     background: var(--text-muted);
@@ -356,7 +356,7 @@
     letter-spacing: 4px;
     opacity: 0.85;
   }
-  .hint { font-size: 12px; max-width: 320px; }
+  .hint { font-size: var(--fs-md); max-width: 360px; }
   .ring {
     width: 64px; height: 64px;
     border: 1.5px dashed var(--line);
@@ -402,9 +402,9 @@
   }
   .bbox-label {
     position: absolute;
-    top: -18px;
+    top: -22px;
     left: 0;
-    font-size: 10px;
+    font-size: var(--fs-xs);
     padding: 1px 5px;
     background: rgba(14,17,22,0.85);
     color: var(--c);
@@ -426,7 +426,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 6px 10px;
-    font-size: 10px;
+    font-size: var(--fs-xs);
     border: 1px solid var(--line);
     border-radius: var(--r-sm);
     background: var(--surface-2);
@@ -444,7 +444,7 @@
     padding: 10px 14px;
     text-align: center;
     letter-spacing: 0.18em;
-    font-size: 12px;
+    font-size: var(--fs-md);
     border-top: 1px solid var(--line);
   }
   .verdict[data-verdict='PASS'] {
@@ -464,7 +464,7 @@
     align-items: center;
     gap: 12px;
   }
-  .rail-label { font-size: 10px; letter-spacing: 0.18em; flex-shrink: 0; }
+  .rail-label { font-size: var(--fs-xs); letter-spacing: 0.18em; flex-shrink: 0; }
   .completed-rail .rail {
     display: flex;
     gap: 8px;

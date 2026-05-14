@@ -23,7 +23,7 @@
     background: var(--surface);
     border: 1px solid var(--line);
     border-radius: var(--r-md);
-    font-size: 11px;
+    font-size: var(--fs-sm);
     letter-spacing: 0.12em;
   }
   .led {
@@ -31,7 +31,7 @@
     animation: blink-1hz 2s linear infinite;
     flex-shrink: 0;
   }
-  .label { color: var(--text-muted); font-size: 10px; }
+  .label { color: var(--text-muted); font-size: var(--fs-xs); }
   .state { margin-left: auto; }
   .ind[data-tone='safe'] .led { background: var(--accent-safe); animation: none; }
   .ind[data-tone='safe'] .state { color: var(--accent-safe); }

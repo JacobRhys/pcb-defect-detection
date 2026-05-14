@@ -55,9 +55,9 @@
     justify-content: space-between;
     align-items: baseline;
   }
-  .label { font-size: 10px; letter-spacing: 0.14em; color: var(--text-muted); }
-  .window { font-size: 9px; letter-spacing: 0.08em; }
+  .label { font-size: var(--fs-xs); letter-spacing: 0.14em; color: var(--text-muted); }
+  .window { font-size: var(--fs-2xs); letter-spacing: 0.08em; }
   .value { display: flex; align-items: baseline; gap: 6px; }
-  .num { font-size: 22px; font-weight: 600; }
-  .unit { font-size: 10px; }
+  .num { font-size: var(--fs-kpi); font-weight: 600; }
+  .unit { font-size: var(--fs-xs); }
 </style>

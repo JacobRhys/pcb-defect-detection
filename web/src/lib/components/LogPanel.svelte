@@ -31,7 +31,7 @@
     display: flex;
     flex-direction: column;
     gap: 2px;
-    font-size: 10px;
+    font-size: var(--fs-xs);
     background: var(--surface);
     border: 1px solid var(--line);
     border-radius: var(--r-md);
@@ -40,7 +40,7 @@
   }
   .row {
     display: grid;
-    grid-template-columns: 56px 1fr 32px 1fr;
+    grid-template-columns: auto 1fr auto 1fr;
     gap: 8px;
     padding: 2px 0;
     align-items: baseline;

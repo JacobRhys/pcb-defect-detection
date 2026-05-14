@@ -53,7 +53,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 4px 8px;
-    font-size: 10px;
+    font-size: var(--fs-xs);
   }
   .legend li {
     display: flex;

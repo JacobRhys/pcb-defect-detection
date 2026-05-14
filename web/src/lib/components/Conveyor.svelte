@@ -78,7 +78,7 @@
 <aside class="conveyor" aria-label="Incoming boards">
   <header class:halted={!$lineActive}>
     <span class="title mono">{$lineActive ? 'INCOMING' : 'LINE HALTED'}</span>
-    <span class="count mono muted">{$lineActive ? `${$queue.length}/8` : '—'}</span>
+    <span class="count mono muted">{$lineActive ? $queue.length : '—'}</span>
   </header>
 
   <div class="rail">
@@ -113,21 +113,23 @@
     padding: 0 14px;
     border-bottom: 1px solid var(--line);
     background: var(--surface-2);
-    font-size: 11px;
+    font-size: var(--fs-sm);
   }
   .title {
-    font-size: 11px;
+    font-size: var(--fs-sm);
     letter-spacing: 0.16em;
     color: var(--accent-data);
     transition: color 200ms ease;
   }
   header.halted .title { color: var(--accent-warn); }
-  .count { font-size: 11px; }
+  .count { font-size: var(--fs-sm); }
   .rail {
     position: relative;
     flex: 1;
     overflow: hidden;
     padding: 10px;
+    display: flex;
+    flex-direction: column;
   }
   .chevrons {
     position: absolute;
@@ -158,5 +160,12 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+  }
+  .tiles li {
+    flex: 1;
+    min-height: 0;
   }
 </style>

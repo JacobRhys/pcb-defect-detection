@@ -40,6 +40,7 @@
     border-radius: var(--r-md);
     text-align: left;
     width: 100%;
+    height: 100%;
     transition: transform 120ms ease, border-color 120ms ease, background 120ms ease;
     cursor: grab;
   }
@@ -51,7 +52,8 @@
   .tile:active { cursor: grabbing; }
   .thumb {
     position: relative;
-    aspect-ratio: 1.4 / 1;
+    flex: 1;
+    min-height: 0;
     overflow: hidden;
     border-radius: var(--r-sm);
     background: var(--surface-2);
@@ -68,7 +70,7 @@
     left: 4px;
     background: rgba(14, 17, 22, 0.78);
     color: var(--text);
-    font-size: 10px;
+    font-size: var(--fs-xs);
     padding: 1px 6px;
     border-radius: 2px;
     letter-spacing: 0.04em;
@@ -76,7 +78,7 @@
   .meta {
     display: flex;
     justify-content: space-between;
-    font-size: 11px;
+    font-size: var(--fs-sm);
     align-items: center;
   }
   .serial { color: var(--text); }

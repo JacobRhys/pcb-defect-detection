@@ -50,3 +50,10 @@ PCB_DATASET/
 
 1. Run [pcb_pipeline.ipynb](pcb_pipeline.ipynb) top-to-bottom (5–10 min on Apple Silicon MPS). Writes `pipeline_cache/patch_classifier.pt`.
 2. Run [benchmark.ipynb](benchmark.ipynb) for the per-class metrics table and the interactive viewer.
+
+## Web demo
+
+A public "digital twin" HMI lives in [web/](web/) — a single-page SvelteKit app
+that calls a live Hugging Face Inference Endpoint running `pcb_lib.detect()`.
+The HF handler is in [service/](service/) and the runbook for first-time
+deployment is in [DEPLOY.md](DEPLOY.md).

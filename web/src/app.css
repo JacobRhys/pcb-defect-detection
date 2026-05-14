@@ -1,0 +1,81 @@
+:root {
+  --bg:          #0E1116;
+  --surface:     #161A21;
+  --surface-2:   #1E242E;
+  --line:        #2A323F;
+  --text:        #E6EAF2;
+  --text-muted:  #8A95A8;
+  --accent-safe: #2BD17E;
+  --accent-warn: #F2B33D;
+  --accent-fail: #E5484D;
+  --accent-data: #3EA6FF;
+
+  /* per-class defect colours (see lib/classes.ts for source of truth) */
+  --c-missing-hole:    #3EA6FF;
+  --c-mouse-bite:      #F2B33D;
+  --c-open-circuit:    #B26BFF;
+  --c-short:           #E5484D;
+  --c-spur:            #2BD17E;
+  --c-spurious-copper: #FF7B5C;
+
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+
+  color-scheme: dark;
+  font-family: 'Inter', 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+  font-weight: 500;
+  color: var(--text);
+  background: var(--bg);
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; height: 100%; }
+
+body {
+  background:
+    radial-gradient(1200px 800px at 20% 0%, rgba(62,166,255,0.04), transparent 60%),
+    radial-gradient(800px 600px at 100% 100%, rgba(43,209,126,0.03), transparent 60%),
+    var(--bg);
+  background-attachment: fixed;
+}
+
+.mono { font-family: 'JetBrains Mono', 'IBM Plex Mono', ui-monospace, monospace; }
+.muted { color: var(--text-muted); }
+.hairline { border: 1px solid var(--line); }
+
+button {
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: background 120ms ease, border-color 120ms ease;
+}
+button:hover { background: var(--surface-2); border-color: var(--accent-data); }
+button:active { transform: translateY(1px); }
+
+::selection { background: rgba(62,166,255,0.35); color: var(--text); }
+
+@keyframes blink-1hz {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0.25; }
+}
+@keyframes scanline {
+  0%   { transform: translateY(0%); opacity: 0.0; }
+  10%  { opacity: 0.85; }
+  90%  { opacity: 0.85; }
+  100% { transform: translateY(100%); opacity: 0.0; }
+}
+@keyframes chevron {
+  from { background-position: 0 0; }
+  to   { background-position: 24px 0; }
+}
+
+/* dot-grid utility */
+.dotgrid {
+  background-image: radial-gradient(rgba(138,149,168,0.18) 1px, transparent 1px);
+  background-size: 14px 14px;
+}

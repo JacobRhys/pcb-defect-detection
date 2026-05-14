@@ -1,0 +1,84 @@
+name: model · push code to HF repo
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'service/**'
+      - 'pcb_lib.py'
+      - '.github/workflows/model.yml'
+
+# This workflow ONLY pushes code (pcb_lib.py + service/*) to the Hugging Face
+# model repo. Weights (pipeline_cache/patch_classifier.pt) and clean references
+# (PCB_DATASET/PCB_USED/) are gitignored and therefore NOT present in CI — they
+# are seeded manually on first deploy. See DEPLOY.md.
+#
+# Required secrets:
+#   HF_WRITE_TOKEN   — Hugging Face write-scoped access token
+# Required variables:
+#   HF_MODEL_REPO    — e.g. "your-org/aifi-pcb"
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: service/requirements.txt
+      - name: install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r service/requirements.txt
+      - name: import-only smoke
+        # We don't have weights in CI (they're gitignored and live only in the
+        # HF model repo). The most we can do is import the modules and confirm
+        # the symbol surface is what the handler expects.
+        run: |
+          python - <<'PY'
+          import importlib, sys
+          sys.path.insert(0, 'service')
+          sys.path.insert(0, '.')
+          pcb = importlib.import_module('pcb_lib')
+          h   = importlib.import_module('handler')
+          for sym in ('detect', 'build_model', 'load_trained_model', 'CLASSES'):
+              assert hasattr(pcb, sym), f'pcb_lib missing {sym}'
+          assert hasattr(h, 'EndpointHandler'), 'handler missing EndpointHandler'
+          print('smoke ok')
+          PY
+
+  publish:
+    needs: smoke
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: install hub client
+        run: pip install --upgrade huggingface_hub
+      - name: push code to HF model repo
+        env:
+          HF_WRITE_TOKEN: ${{ secrets.HF_WRITE_TOKEN }}
+          HF_MODEL_REPO: ${{ vars.HF_MODEL_REPO }}
+        run: |
+          test -n "$HF_WRITE_TOKEN" || { echo "HF_WRITE_TOKEN unset"; exit 1; }
+          test -n "$HF_MODEL_REPO"  || { echo "HF_MODEL_REPO unset";  exit 1; }
+          python - <<'PY'
+          import os
+          from huggingface_hub import HfApi
+          api = HfApi(token=os.environ['HF_WRITE_TOKEN'])
+          repo = os.environ['HF_MODEL_REPO']
+          # Only push code — weights and PCB_USED/ live in the HF repo already
+          # (seeded manually on first deploy) and are NOT touched here.
+          for src, dst in [
+              ('pcb_lib.py', 'pcb_lib.py'),
+              ('service/handler.py', 'handler.py'),
+              ('service/requirements.txt', 'requirements.txt'),
+          ]:
+              print('upload', src, '->', repo + '/' + dst)
+              api.upload_file(path_or_fileobj=src, path_in_repo=dst, repo_id=repo, repo_type='model')
+          print('done')
+          PY

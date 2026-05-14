@@ -12,11 +12,17 @@
   }
   let { label, unit, window, value, decimals = 0, accent }: Props = $props();
 
-  let displayed = $state(value);
+  let displayed = $state(0);
   let cancel: (() => void) | undefined;
+  let primed = false;
 
   $effect(() => {
     const target = value;
+    if (!primed) {
+      displayed = target;
+      primed = true;
+      return;
+    }
     if (cancel) cancel();
     cancel = tween(displayed, target, 400, (v) => (displayed = v));
   });

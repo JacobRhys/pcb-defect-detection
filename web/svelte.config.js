@@ -14,6 +14,11 @@ const config = {
       precompress: false,
       strict: true
     }),
+    // Match the prompt's directory layout: public/ holds static assets
+    // (samples + favicon) instead of the SvelteKit default `static/`.
+    files: {
+      assets: 'public'
+    },
     alias: {
       $components: 'src/lib/components'
     }

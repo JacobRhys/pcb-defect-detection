@@ -6,7 +6,7 @@
   import ResultCard from './ResultCard.svelte';
   import { sampleUrl } from '$lib/samples';
   import { CLASS_LABEL } from '$lib/classes';
-  import { bay, completed, mode, resetSession, takeOldestQueued } from '$lib/state';
+  import { bay, completed, mode, popTile, resetSession, takeOldestQueued } from '$lib/state';
   import { fireWarmupOnce, isBusy, runInspection } from '$lib/orchestrator';
   import type { QueueTile } from '$lib/types';
 
@@ -56,13 +56,8 @@
     dropActive = false;
     const id = e.dataTransfer?.getData('text/x-tile-id');
     if (!id) return;
-    // Find and pop the tile via state helpers
-    handleClaim(id);
-  }
-  async function handleClaim(id: string) {
-    const { popTile } = await import('$lib/state');
     const tile = popTile(id);
-    if (tile && !isBusy()) await runInspection(tile);
+    if (tile && !isBusy()) runInspection(tile);
   }
 
   /**
@@ -113,9 +108,12 @@
   }
 </script>
 
+<!-- svelte-ignore a11y_no_redundant_roles -->
 <section
   class="bay"
   class:drop={dropActive}
+  role="region"
+  aria-label="Inspection bay — drop a board here to scan"
   ondragover={onDragOver}
   ondragleave={onDragLeave}
   ondrop={onDrop}

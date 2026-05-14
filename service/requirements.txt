@@ -2,3 +2,10 @@ torch==2.5.1
 torchvision==0.20.1
 opencv-python-headless==4.8.0.76
 numpy==1.24.3
+
+# Repair the HF base image's broken sentence_transformers / transformers
+# combo (the inference toolkit fails to import otherwise). We don't use
+# these libraries directly — these pins exist purely so the toolkit's
+# webservice_starlette can import cleanly.
+transformers>=4.46.0
+sentence-transformers>=3.0.0

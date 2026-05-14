@@ -6,7 +6,7 @@
 
   import ConveyorTile from './ConveyorTile.svelte';
   import { loadSamples } from '$lib/samples';
-  import { lineActive, makeTile, pushTile, queue } from '$lib/state';
+  import { bay, lineActive, makeTile, pushTile, queue } from '$lib/state';
   import type { QueueTile, SampleEntry } from '$lib/types';
 
   interface Props {
@@ -48,7 +48,12 @@
 
   function spawn() {
     if (samples.length === 0 || !get(lineActive)) return;
-    pushTile(makeTile(nextSample()));
+    // Only queue a tile when the pipeline is free: nothing queued and bay not
+    // actively scanning or warming. This prevents hammering the HF endpoint.
+    const bayKind = get(bay).kind;
+    if (get(queue).length === 0 && bayKind !== 'scanning' && bayKind !== 'warming') {
+      pushTile(makeTile(nextSample()));
+    }
     scheduleNext();
   }
 

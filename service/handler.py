@@ -29,6 +29,9 @@ HERE = Path(__file__).resolve().parent
 if str(HERE) not in sys.path:
     sys.path.insert(0, str(HERE))
 
+import cv2  # noqa: E402
+import numpy as np  # noqa: E402
+
 import pcb_lib  # noqa: E402
 
 log = logging.getLogger("pcb-handler")
@@ -112,8 +115,8 @@ class EndpointHandler:
             tmp_path = Path(tmp.name)
         try:
             t_reg = time.perf_counter()
-            warped, clean, detections, _H, ok = pcb_lib.detect(
-                self.model, tmp_path, clean_path
+            warped, clean, detections, H, ok = pcb_lib.detect(
+                self.model, tmp_path, clean_path, score_thresh=0.9
             )
             t_done = time.perf_counter()
         finally:
@@ -141,13 +144,31 @@ class EndpointHandler:
                 "error": "registration_failed",
             }
 
+        # detect() runs on the registered (warped) image, so box coords live in
+        # the clean reference's frame. The browser overlays them on the raw
+        # upload, so we invert H to map each corner back into original-image
+        # coords before serialising.
+        try:
+            H_inv = np.linalg.inv(H)
+        except np.linalg.LinAlgError:
+            H_inv = None
+
         boxes = []
         for (x0, y0, x1, y1), class_name, score in detections:
+            if H_inv is not None:
+                corners = np.float32(
+                    [[x0, y0], [x1, y0], [x1, y1], [x0, y1]]
+                ).reshape(-1, 1, 2)
+                mapped = cv2.perspectiveTransform(corners, H_inv).reshape(-1, 2)
+                ox0, oy0 = mapped[:, 0].min(), mapped[:, 1].min()
+                ox1, oy1 = mapped[:, 0].max(), mapped[:, 1].max()
+            else:
+                ox0, oy0, ox1, oy1 = x0, y0, x1, y1
             boxes.append({
-                "x": int(x0),
-                "y": int(y0),
-                "w": int(x1 - x0),
-                "h": int(y1 - y0),
+                "x": int(round(ox0)),
+                "y": int(round(oy0)),
+                "w": int(round(ox1 - ox0)),
+                "h": int(round(oy1 - oy0)),
                 "class": class_name,
                 "confidence": round(float(score), 4),
             })

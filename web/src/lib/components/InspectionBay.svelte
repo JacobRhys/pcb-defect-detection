@@ -6,9 +6,9 @@
   import ResultCard from './ResultCard.svelte';
   import { sampleUrl } from '$lib/samples';
   import { CLASS_LABEL } from '$lib/classes';
-  import { bay, completed, mode, popTile, resetSession, takeOldestQueued } from '$lib/state';
+  import { bay, completed, lineActive, mode, popTile, resetSession, takeOldestQueued, toggleLine } from '$lib/state';
   import { fireWarmupOnce, isBusy, runInspection } from '$lib/orchestrator';
-  import type { QueueTile } from '$lib/types';
+  import type { ConveyorMode, QueueTile } from '$lib/types';
 
   // Drop-zone state for visual feedback
   let dropActive = $state(false);
@@ -24,10 +24,24 @@
   let imgEl = $state<HTMLImageElement | null>(null);
   let natural = $state({ w: 0, h: 0 });
 
+  // When mode switches to AUTOMATIC, immediately claim next queued tile
+  // rather than waiting up to 4 s for the interval to fire.
+  let prevMode: ConveyorMode | undefined;
+  const unsubMode = mode.subscribe((m) => {
+    if (prevMode !== undefined && prevMode !== m && m === 'AUTOMATIC') {
+      if (!isBusy() && $lineActive) {
+        const tile = takeOldestQueued();
+        if (tile) runInspection(tile);
+      }
+    }
+    prevMode = m;
+  });
+
   onMount(() => {
     fireWarmupOnce();
     autoTimer = setInterval(() => {
       if ($mode !== 'AUTOMATIC') return;
+      if (!$lineActive) return;
       if (isBusy()) return;
       const tile = takeOldestQueued();
       if (tile) runInspection(tile);
@@ -42,6 +56,7 @@
   onDestroy(() => {
     if (autoTimer) clearInterval(autoTimer);
     cancelAnimationFrame(phaseRaf);
+    unsubMode();
   });
 
   function onDragOver(e: DragEvent) {
@@ -124,7 +139,17 @@
       <span class="status mono">{$bay.kind.toUpperCase()}</span>
     </div>
     <div class="controls">
-      <button class="toggle" onclick={toggleMode} aria-pressed={$mode === 'AUTOMATIC'}>
+      <button
+        class="line-ctrl mono"
+        class:running={$lineActive}
+        onclick={toggleLine}
+        aria-pressed={!$lineActive}
+        title={$lineActive ? 'Halt the inspection line' : 'Start the inspection line'}
+      >
+        <span class="line-dot" data-active={$lineActive}></span>
+        {$lineActive ? 'HALT LINE' : 'START LINE'}
+      </button>
+      <button class="toggle" onclick={toggleMode} aria-pressed={$mode === 'AUTOMATIC'} disabled={!$lineActive}>
         <span class="dot" data-on={$mode === 'AUTOMATIC'}></span>
         {$mode}
       </button>
@@ -134,11 +159,19 @@
 
   <div class="stage dotgrid">
     {#if $bay.kind === 'idle'}
-      <div class="overlay-msg">
-        <span class="ring"></span>
-        <p class="awaiting mono">AWAITING BOARD</p>
-        <p class="hint muted">Drag a tile from the conveyor, or wait for AUTOMATIC mode.</p>
-      </div>
+      {#if !$lineActive}
+        <div class="overlay-msg line-halted">
+          <span class="halt-bars" aria-hidden="true">&#9646;&#9646;</span>
+          <p class="awaiting mono">LINE HALTED</p>
+          <p class="hint muted">Press START LINE to resume inspection.</p>
+        </div>
+      {:else}
+        <div class="overlay-msg">
+          <span class="ring"></span>
+          <p class="awaiting mono">AWAITING BOARD</p>
+          <p class="hint muted">Drag a tile from the conveyor, or wait for AUTOMATIC mode.</p>
+        </div>
+      {/if}
     {:else if $bay.kind === 'warming'}
       <div class="overlay-msg">
         <p class="awaiting mono">SPINNING UP INFERENCE NODE</p>
@@ -233,9 +266,11 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 14px;
+    height: 44px;
+    padding: 0 14px;
     border-bottom: 1px solid var(--line);
     background: var(--surface-2);
+    font-size: 11px;
   }
   .status-group { display: flex; align-items: center; gap: 8px; }
   .status { font-size: 11px; letter-spacing: 0.14em; }
@@ -256,6 +291,38 @@
     transition: background 160ms ease;
   }
   .toggle .dot[data-on='true'] { background: var(--accent-safe); }
+  .toggle:disabled { opacity: 0.35; cursor: not-allowed; pointer-events: none; }
+
+  /* HALT / START LINE control */
+  .line-ctrl {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    letter-spacing: 0.1em;
+    border-color: var(--accent-safe);
+    color: var(--accent-safe);
+    transition: background 120ms ease, border-color 120ms ease, color 120ms ease;
+  }
+  .line-ctrl:hover { background: color-mix(in srgb, var(--accent-safe) 10%, transparent); }
+  .line-ctrl.running {
+    border-color: var(--accent-warn);
+    color: var(--accent-warn);
+  }
+  .line-ctrl.running:hover { background: color-mix(in srgb, var(--accent-warn) 10%, transparent); }
+  .line-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--accent-safe);
+    transition: background 160ms ease;
+    box-shadow: 0 0 0 0 var(--accent-safe);
+  }
+  .line-dot[data-active='true'] {
+    background: var(--accent-warn);
+    animation: pulse-warn 2s ease-in-out infinite;
+  }
+  @keyframes pulse-warn {
+    0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent-warn) 60%, transparent); }
+    50%       { box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent-warn) 0%, transparent); }
+  }
 
   .stage {
     position: relative;
@@ -279,6 +346,16 @@
     animation: blink-1hz 2.4s ease-in-out infinite;
   }
   .overlay-msg.error .awaiting { color: var(--accent-fail); }
+  .overlay-msg.line-halted .awaiting {
+    color: var(--accent-warn);
+    animation: blink-1hz 1.6s ease-in-out infinite;
+  }
+  .halt-bars {
+    font-size: 28px;
+    color: var(--accent-warn);
+    letter-spacing: 4px;
+    opacity: 0.85;
+  }
   .hint { font-size: 12px; max-width: 320px; }
   .ring {
     width: 64px; height: 64px;

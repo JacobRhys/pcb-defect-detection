@@ -23,6 +23,15 @@ export const queue: Writable<QueueTile[]> = writable([]);
 export const bay: Writable<BayState> = writable({ kind: 'idle' });
 export const completed: Writable<CompletedRun[]> = writable([]);
 export const node: Writable<NodeHealth> = writable('UNKNOWN');
+export const lineActive: Writable<boolean> = writable(true);
+
+/** Halt or start the inspection line. Halting clears the queue immediately. */
+export function toggleLine(): void {
+  lineActive.update((active) => {
+    if (active) queue.set([]);
+    return !active;
+  });
+}
 
 // Telemetry-side stores
 export interface LogRow {
@@ -171,5 +180,6 @@ export function resetSession(): void {
     Object.fromEntries(DEFECT_CLASSES.map((c) => [c, 0])) as Record<DefectClass, number>
   );
   sessionTotals.set({ pass: 0, fail: 0 });
+  lineActive.set(true);
   seq = 0;
 }

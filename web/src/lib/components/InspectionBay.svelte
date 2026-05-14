@@ -308,7 +308,7 @@
     border: 1px solid var(--line);
     border-radius: var(--r-sm);
     overflow: hidden;
-    background: #000;
+    background: var(--surface-2);
   }
   .board-wrap img { display: block; max-width: 100%; max-height: 70vh; object-fit: contain; }
   .scanline {

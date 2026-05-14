@@ -54,7 +54,7 @@
     aspect-ratio: 1.4 / 1;
     overflow: hidden;
     border-radius: var(--r-sm);
-    background: #000;
+    background: var(--surface-2);
   }
   .thumb img {
     width: 100%;

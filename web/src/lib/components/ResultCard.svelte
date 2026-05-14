@@ -45,7 +45,7 @@
     aspect-ratio: 1.4 / 1;
     overflow: hidden;
     border-radius: var(--r-sm);
-    background: #000;
+    background: var(--surface-2);
   }
   .thumb img { width: 100%; height: 100%; object-fit: cover; }
   .badge {
@@ -64,7 +64,7 @@
   .chip {
     padding: 1px 6px;
     border-radius: 999px;
-    background: rgba(255,255,255,0.04);
+    background: color-mix(in srgb, var(--c) 8%, transparent);
     border: 1px solid var(--c);
     color: var(--c);
   }

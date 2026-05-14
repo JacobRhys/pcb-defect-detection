@@ -35,7 +35,7 @@ log = logging.getLogger("pcb-handler")
 logging.basicConfig(level=os.environ.get("LOG_LEVEL", "INFO"))
 
 ALLOWED_LAYOUTS = {"L01", "L04", "L05", "L06", "L07", "L08", "L09", "L10", "L11", "L12"}
-MAX_IMAGE_BYTES = 2 * 1024 * 1024
+MAX_IMAGE_BYTES = 8 * 1024 * 1024
 
 
 class EndpointHandler:

@@ -1,9 +1,8 @@
 """Stage demo PCB images for the web frontend.
 
 Reads PCB_DATASET locally, picks images from the held-out layouts
-(10, 11, 12) across all six defect classes, resizes them so the longest
-edge is ~512 px, and writes them plus a manifest.json into
-web/public/samples/.
+(10, 11, 12) across all six defect classes, and writes them plus a
+manifest.json into web/public/samples/.
 
 This script is developer-only — the output IS committed (a few MB total).
 The web demo does not depend on PCB_DATASET at runtime; only on the
@@ -38,13 +37,10 @@ FLAW_DIRS = {
 
 HELD_OUT_LAYOUTS = {"10", "11", "12"}
 # The detection pipeline (ORB registration, CLAHE diff proposals, 96-px
-# classifier crops) was tuned on the original ~2240 px PCB_DATASET inputs.
-# Downsampling the flaw image while leaving the clean reference at native
-# resolution produces a blurry warped flaw and a wave of false-positive
-# proposals. Keep the staged demo samples close to native to match the
-# benchmark distribution.
-TARGET_LONG_EDGE = 2240
-JPEG_QUALITY = 82
+# classifier crops) was tuned on the original dataset images. Re-encoding or
+# resizing the flaw image changes the registration/diff behaviour relative to
+# the bundled clean references, so the staged web samples should preserve the
+# original pixels.
 
 
 def _layout_of(stem: str) -> str | None:
@@ -67,15 +63,6 @@ def collect_candidates() -> list[tuple[Path, str, str]]:
             if layout in HELD_OUT_LAYOUTS:
                 out.append((p, label, layout))
     return out
-
-
-def resize_to_long_edge(img, long_edge: int):
-    h, w = img.shape[:2]
-    if max(h, w) <= long_edge:
-        return img
-    scale = long_edge / max(h, w)
-    new_w, new_h = int(round(w * scale)), int(round(h * scale))
-    return cv2.resize(img, (new_w, new_h), interpolation=cv2.INTER_AREA)
 
 
 def main():
@@ -121,10 +108,9 @@ def main():
         if img is None:
             print(f"warn: failed to read {src}", file=sys.stderr)
             continue
-        img = resize_to_long_edge(img, TARGET_LONG_EDGE)
         out_name = f"L{layout}_{label}_{i:02d}.jpg"
         out_path = out_dir / out_name
-        cv2.imwrite(str(out_path), img, [cv2.IMWRITE_JPEG_QUALITY, JPEG_QUALITY])
+        shutil.copy2(src, out_path)
         manifest.append({
             "file": out_name,
             "layout_id": f"L{layout}",

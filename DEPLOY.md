@@ -93,7 +93,7 @@ Capture two values for the next step:
    - `HF_TOKEN`         = the read-only token from step 2
    - `HF_ENDPOINT_URL`  = the endpoint URL from step 2
    - `DAILY_REQUEST_CAP` (optional) = `5000`
-   - `MAX_REQUEST_BYTES` (optional) = `3145728`
+   - `MAX_REQUEST_BYTES` (optional) = `10485760`
 5. **KV** binding (Settings → Functions → KV namespace bindings):
    - Variable name: `DAILY_COUNTER`
    - KV namespace: create one called e.g. `aifi_daily_counter`

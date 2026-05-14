@@ -80,7 +80,7 @@ Cloudflare Pages is configured (in the Pages project settings) with:
 | `HF_TOKEN`          | yes      | Bearer token for the HF endpoint        |
 | `HF_ENDPOINT_URL`   | yes      | Full URL of the HF inference endpoint   |
 | `DAILY_REQUEST_CAP` | no       | Global daily POST cap (default 5000)    |
-| `MAX_REQUEST_BYTES` | no       | Per-request body limit (default 3 MB)   |
+| `MAX_REQUEST_BYTES` | no       | Per-request body limit (default 10 MB)  |
 
 Bind a KV namespace called `DAILY_COUNTER` under Functions → KV namespaces
 to enable the global daily cap. Without it, the cap is a no-op.

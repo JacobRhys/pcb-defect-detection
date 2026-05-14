@@ -9,7 +9,7 @@
  *   HF_TOKEN              — bearer token, READ-only scope on the endpoint
  *   HF_ENDPOINT_URL       — full URL of the HF inference endpoint
  *   DAILY_REQUEST_CAP     — global daily POST cap (default "5000")
- *   MAX_REQUEST_BYTES     — request body limit in bytes (default "3145728" = 3 MB)
+ *   MAX_REQUEST_BYTES     — request body limit in bytes (default "10485760" = 10 MB)
  *
  * KV namespaces (bound from Pages project settings → Functions → KV):
  *   DAILY_COUNTER         — used by the global daily-cap counter
@@ -33,7 +33,7 @@ interface KVNamespace {
 }
 
 const DEFAULT_DAILY_CAP = 5000;
-const DEFAULT_MAX_BYTES = 3 * 1024 * 1024;
+const DEFAULT_MAX_BYTES = 10 * 1024 * 1024;
 const HF_TIMEOUT_MS = 30_000;
 
 interface RequestContext {

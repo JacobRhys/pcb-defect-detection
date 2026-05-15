@@ -172,8 +172,7 @@
     overflow: hidden;
   }
   .tiles li {
-    flex: 1;
+    flex: 0 0 auto;
     min-width: 0;
-    min-height: 0;
   }
 </style>

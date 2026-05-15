@@ -40,7 +40,6 @@
     border-radius: var(--r-md);
     text-align: left;
     width: 100%;
-    height: 100%;
     min-width: 0;
     overflow: hidden;
     transition: transform 120ms ease, border-color 120ms ease, background 120ms ease;
@@ -54,8 +53,7 @@
   .tile:active { cursor: grabbing; }
   .thumb {
     position: relative;
-    flex: 1;
-    min-height: 0;
+    aspect-ratio: 1.4 / 1;
     overflow: hidden;
     border-radius: var(--r-sm);
     background: var(--surface-2);

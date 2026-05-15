@@ -179,7 +179,7 @@
         <div class="progress"><div class="bar" style="animation-duration: {$bay.eta_ms}ms"></div></div>
       </div>
     {:else if $bay.kind === 'scanning' || $bay.kind === 'result'}
-      <div class="board-wrap">
+      <div class="board-wrap" style={natural.w > 0 ? `aspect-ratio: ${natural.w} / ${natural.h}` : ''}>
         <img
           bind:this={imgEl}
           src={sampleUrl($bay.tile.sample.file)}
@@ -387,7 +387,7 @@
     overflow: hidden;
     background: var(--surface-2);
   }
-  .board-wrap img { display: block; max-width: 100%; max-height: 70vh; object-fit: contain; }
+  .board-wrap img { display: block; width: 100%; height: 100%; }
   .scanline {
     position: absolute; left: 0; right: 0; top: 0; height: 6px;
     background: linear-gradient(180deg, transparent, rgba(62,166,255,0.65), transparent);

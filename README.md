@@ -48,7 +48,7 @@ PCB_DATASET/
 
 ## Reproducing
 
-1. Run [pcb_pipeline.ipynb](pcb_pipeline.ipynb) top-to-bottom (5–10 min on Apple Silicon MPS). Writes `pipeline_cache/patch_classifier.pt`.
+1. Run [pcb_pipeline.ipynb](pcb_pipeline.ipynb) top-to-bottom locally (5–10 min on Apple Silicon MPS). Writes `pipeline_cache/patch_classifier.pt`.
 2. Run [benchmark.ipynb](benchmark.ipynb) for the per-class metrics table and the interactive viewer.
 
 ## Web demo
